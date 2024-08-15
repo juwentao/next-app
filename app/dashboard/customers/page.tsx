@@ -1,8 +1,25 @@
-import { Metadata } from 'next';
+'use client';
+import { useChat } from 'ai/react';
 
-export const metadata: Metadata = {
-    title: 'Customers',
-};
-export default function CustomersPage() {
-    return <p>Customers Page</p>;
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+  return (
+    <div>
+      {messages.map((m) => (
+        <div key={m.id}>
+          {m.role === 'user' ? 'User: ' : 'AI: '}
+          {m.content}
+        </div>
+      ))}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          value={input}
+          placeholder="Say something..."
+          onChange={handleInputChange}
+        />
+      </form>
+    </div>
+  );
 }
